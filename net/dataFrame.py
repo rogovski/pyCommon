@@ -14,11 +14,10 @@ class dataFrame(object):
       self._df = pd.read_csv(path)
       return either.Right('ok')
     except:
-      return either.Left('failed to loadCsv')    
+      return either.Left('failed to loadCsv')
 
   def getFrame(self):
     if self._df is None:
       return either.Left('no frame loaded')
     else:
       return either.Right(self._df)
-    
