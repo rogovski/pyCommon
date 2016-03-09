@@ -1,5 +1,6 @@
 from    ..either                    import core             as either
 from    sklearn.feature_extraction  import DictVectorizer
+from    sklearn                     import preprocessing
 import  pandas                                              as pd
 import  numpy                                               as np
 
@@ -8,9 +9,10 @@ def _failIf(cond, errMessage):
     return lambda _: either.Left(errMessage) if cond \
             else either.Right(cond)
 
-class TrainingSet(object):
+
+class RegressionTrainingSet(object):
     '''
-    training set for a regression or classification model
+    training set for a regression model
 
     '''
 
@@ -20,6 +22,7 @@ class TrainingSet(object):
         '''
         initialize
         '''
+        self.setType    = 'REGRESSION'
         self.vec        = DictVectorizer()
         self.predictors = predictors
         self.responder  = responder
@@ -39,6 +42,44 @@ class TrainingSet(object):
             else:
                 self.X = self.vec.fit_transform(predictorData).toarray()
             self.y = responderData
+            return either.Right('ok')
+        except:
+            return either.Left('failed to load training set')
+
+
+class ClassificationTrainingSet(object):
+    '''
+    training set for a classification model
+
+    '''
+
+    def __init__(self,
+                 predictors  = None,
+                 responder   = None):
+        '''
+        initialize
+        '''
+        self.setType    = 'CLASSIFICATION'
+        self.vec        = DictVectorizer()
+        self.le         = preprocessing.LabelEncoder()
+        self.predictors = predictors
+        self.responder  = responder
+        self.X          = None
+        self.y          = None
+
+    def loadData(self,
+                 predictorData,
+                 responderData,
+                 sparse=False):
+        '''
+        load actual data of training set (as opposed to info)
+        '''
+        try:
+            if sparse:
+                self.X = self.vec.fit_transform(predictorData)
+            else:
+                self.X = self.vec.fit_transform(predictorData).toarray()
+            self.y = self.le.fit_transform(responderData)
             return either.Right('ok')
         except:
             return either.Left('failed to load training set')
@@ -256,7 +297,8 @@ class Frame(object):
         else:
             predictorData = self.asDictListKeep(keep=predictors)
             responderData = self._df[responder].values
-            trainingSet   = TrainingSet(predictors=predictors, responder=responder)
+            trainingSet   = RegressionTrainingSet(predictors=predictors, \
+                                                  responder=responder)
 
             if predictorData.name == 'Left':
                 return either.Left('failed to create predictor set')
@@ -285,7 +327,8 @@ class Frame(object):
         else:
             predictorData = self.asDictListKeep(keep=predictors)
             responderData = self._df[responder].values
-            trainingSet   = TrainingSet(predictors=predictors, responder=responder)
+            trainingSet   = ClassificationTrainingSet(predictors=predictors, \
+                                                      responder=responder)
 
             if predictorData.name == 'Left':
                 return either.Left('failed to create predictor set')
