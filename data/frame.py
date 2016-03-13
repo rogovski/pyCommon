@@ -51,6 +51,8 @@ class ClassificationTrainingSet(object):
     '''
     training set for a classification model
 
+    predictors : [string]
+    responder  : string
     '''
 
     def __init__(self,
@@ -73,6 +75,9 @@ class ClassificationTrainingSet(object):
                  sparse=False):
         '''
         load actual data of training set (as opposed to info)
+        
+        predictorData : [{ ... }]
+        responderData : numpy.array
         '''
         try:
             if sparse:
@@ -88,6 +93,8 @@ class ClassificationTrainingSet(object):
 class Frame(object):
     '''
     wrapper around a pandas data frame
+    
+    df : pandas data frame
     '''
 
     def __init__(self,
@@ -222,6 +229,8 @@ class Frame(object):
         '''
         create a list of dictionaries from the underlying data frame. exclude
         the column names specified
+
+        exclude : [string]
         '''
         return either.pipe(
             _failIf(self._df is None,
@@ -236,6 +245,8 @@ class Frame(object):
         '''
         create a list of dictionaries from the underlying data frame. keep
         the column names specified
+
+        keep : [string]
         '''
         return either.pipe(
             _failIf(self._df is None,
