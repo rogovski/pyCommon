@@ -114,7 +114,7 @@ class Frame(object):
         '''
         try:
             self._df = pd.read_csv(path)
-            return either.Right('ok')
+            return either.Right({ path: path })
         except:
             return either.Left('failed to loadCsv')
 
