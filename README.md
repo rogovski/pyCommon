@@ -17,6 +17,10 @@ base EVENT object. represents a transaction that has taken place in a system.
 EVENTs are generated in response to COMMANDs. EVENTs are always named after
 past tense verbs
 
+### pyCommon.data.frame
+
+container that imbues a pandas data frame with extra functionality
+
 ### pyCommon.data.query
 
 utilities for querying datasources. includes pandas dataframes, sql stores,
@@ -39,9 +43,6 @@ implements a pipe operation similar to haskell's '>=>' (reverse compose).
 
 network functionality
 
-### pyCommon.net.dataFrame
-
-container that imbues a pandas data frame with extra functionality
 
 ### pyCommon.net.process
 
@@ -72,7 +73,7 @@ POST /kill
 
 POST /push
 - start pushing the dataset to a specified destination. if the process is
-  already pushing, do nothing. if destination does not exist, notify and 
+  already pushing, do nothing. if destination does not exist, notify and
   do nothing
 
 POST /stop
@@ -80,3 +81,16 @@ POST /stop
 
 
 
+### COMMANDS
+
+1> GET_WORKER_INFO
+2> LOAD_WORKER_FRAME_MANAGER
+3> GET_WORKER_FRAME_MANAGER_INFO
+4> STREAM_WORKER_FRAME_MANAGER
+
+
+
+
+
+1a< GET_WORKER_INFO_SUCCEEDED
+1b< GET_WORKER_INFO_FAILED
