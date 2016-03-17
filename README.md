@@ -80,17 +80,47 @@ POST /stop
 - stop pushing the dataset. if the process is already stopped, do nothing.
 
 
-
 ### COMMANDS
 
-1> GET_WORKER_INFO
-2> LOAD_WORKER_FRAME_MANAGER
-3> GET_WORKER_FRAME_MANAGER_INFO
-4> STREAM_WORKER_FRAME_MANAGER
+A typical worker process is initialized as follows.
+
+A process manager initializes a worker with two pieces of information.
+
+1. <uuid-work-queue> - a uuid uniquely identifing the worker and the queue
+that it consumes messages from.
+
+2. <response-channel> - a channel that the worker broadcasts responses to
+via redis publish
+
+about this worker is stored in a redis hash
+
+worker:<uuid-work-queue> = {
+    startedOn:datetime,
+    pid:int,
+    responseChannel:<response-channel>
+}
+
+the worker initiates a client connection to the message broker (rabbitmq, SQS,
+azureque). it connects to message broker with queue name <uuid-work-queue>.
 
 
 
 
 
-1a< GET_WORKER_INFO_SUCCEEDED
-1b< GET_WORKER_INFO_FAILED
+
+
+1> GET_INFO_WORKER
+2> GET_INFO_WORKER_FRAME_MANAGER
+3> LOAD_WORKER_FRAME_MANAGER
+4> KILL_WORKER_FRAME_MANAGER
+5> MODIFY_WORKER_FRAME_MANAGER
+6> SAVE_WORKER_FRAME_MANAGER
+7> LOAD_STREAM_WORKER_FRAME_MANAGER
+8> KILL_STREAM_WORKER_FRAME_MANAGER
+
+
+
+
+
+1a< GET_INFO_WORKER_SUCCEEDED
+1b< GET_INFO_WORKER_FAILED

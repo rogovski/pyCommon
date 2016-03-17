@@ -3,20 +3,18 @@ from   ..either import core as either
 
 # base command object
 class EVENT(object):
-    def __init__(self, 
-                 eventType, 
-                 eventId=None, 
-                 timeStamp=None, 
+    def __init__(self,
+                 eventType,
                  data=None):
 
         self.eventType = eventType
-        self.eventId   = eventId
-        self.timeStamp = timeStamp
+        self.eventId   = str(uuid.uuid4())
+        self.timeStamp = time.time()
         self.data      = data
 
-    def get(self, 
-            key):
-    
+    def getData(self,
+                key):
+
         if self.data is None:
             return either.Left('command has no data')
 

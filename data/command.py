@@ -1,22 +1,21 @@
 import uuid
+import time
 from   ..either import core as either
 
 # base command object
 class COMMAND(object):
-    def __init__(self, 
-                 commandType, 
-                 commandId=None, 
-                 timeStamp=None, 
+    def __init__(self,
+                 commandType,
                  data=None):
 
         self.commandType = commandType
-        self.commandId   = commandId
-        self.timeStamp   = timeStamp
+        self.commandId   = str(uuid.uuid4())
+        self.timeStamp   = time.time()
         self.data        = data
 
-    def get(self, 
-            key):
-    
+    def getData(self,
+                key):
+
         if self.data is None:
             return either.Left('command has no data')
 
