@@ -75,7 +75,7 @@ class ClassificationTrainingSet(object):
                  sparse=False):
         '''
         load actual data of training set (as opposed to info)
-        
+
         predictorData : [{ ... }]
         responderData : numpy.array
         '''
@@ -93,7 +93,7 @@ class ClassificationTrainingSet(object):
 class Frame(object):
     '''
     wrapper around a pandas data frame
-    
+
     df : pandas data frame
     '''
 
@@ -358,6 +358,11 @@ class Frame(object):
                                  exclude):
         '''
         UNSAFE: helper method for asDictListExclude
+
+        TODO: find out why values lin models are different when this
+        implementation is used:
+
+        results = self._df.drop(exclude, axis=1).T.to_dict().values()
         '''
         keeps, toZip = [], []
         colVals = self._df.columns.values
@@ -375,6 +380,11 @@ class Frame(object):
                               keep):
         '''
         UNSAFE: helper method for asDictListKeep
+
+        TODO: find out why values lin models are different when this
+        implementation is used:
+
+        results = self._df[keep].T.to_dict().values()
         '''
         keeps, toZip = [], []
         colVals = self._df.columns.values
