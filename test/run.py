@@ -1,9 +1,12 @@
 import unittest
+import test_data_frame
+
 
 class TestStringMethods(unittest.TestCase):
 
   def test_upper(self):
       self.assertEqual('foo'.upper(), 'FOO')
+      self.assertEqual('bar'.upper(), 'BAR')
 
   def test_isupper(self):
       self.assertTrue('FOO'.isupper())
@@ -17,4 +20,9 @@ class TestStringMethods(unittest.TestCase):
           s.split(2)
 
 if __name__ == '__main__':
-    unittest.main()
+
+    suite1 = unittest.TestLoader().loadTestsFromTestCase(TestStringMethods)
+    unittest.TextTestRunner(verbosity=2).run(suite1)
+
+    suite2 = unittest.TestLoader().loadTestsFromTestCase(test_data_frame.TestStringMethods2)
+    unittest.TextTestRunner(verbosity=2).run(suite2)
