@@ -62,4 +62,4 @@ target/
 .ipynb_checkpoints
 
 # Data
-test/test_data/*.csv
+test/test_data/test_data_frame1.csv
