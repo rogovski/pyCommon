@@ -1,17 +1,20 @@
 import unittest
+from ..either import core       as either
+from ..data import frame        as frame
+from ..data import query        as query
+import pandas                   as pd
+import numpy                    as np
 
-class TestStringMethods2(unittest.TestCase):
+# self.assertEqual('foo'.upper(), 'FOO')
+# self.assertTrue('FOO'.isupper())
+# self.assertFalse('Foo'.isupper())
+# with self.assertRaises(TypeError):
+#   s.split(2)
 
-  def test_upper(self):
-      self.assertEqual('foo'.upper(), 'FOO')
+class TestDataFrameMethods(unittest.TestCase):
 
-  def test_isupper(self):
-      self.assertTrue('FOO'.isupper())
-      self.assertFalse('Foo'.isupper())
-
-  def test_split(self):
-      s = 'hello world'
-      self.assertEqual(s.split(), ['hello', 'world'])
-      # check that s.split fails when the separator is not a string
-      with self.assertRaises(TypeError):
-          s.split(2)
+  def test_dict_list_keep(self):
+      df = frame.Frame();
+      df.loadCsv('C:\\Users\\ESCO-1\\CodeRepos\\stream\\pycommondev\\pyCommon\\test\\test_data\\test_data_frame1.csv');
+      keepsE = df.asDictListKeep(keep=['Corp'])
+      self.assertEqual(len(keepsE.val), df._df.shape[0])
